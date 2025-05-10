@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "nativeapp",
     "name": "React-Native-App-Expo-",
     "slug": "React-Native-App-Expo-",
     "version": "1.0.0",
@@ -24,6 +25,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
