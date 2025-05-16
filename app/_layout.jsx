@@ -3,13 +3,14 @@ import React from "react";
 import { Stack } from "expo-router";
 import { Colors } from "../constants/Colors";
 import { StatusBar } from "expo-status-bar";
+import { UserProdiver } from "../context/UserContext";
 
 const RootLayout = () => {
   const colorScheme = useColorScheme();
   const theme = Colors[colorScheme] ?? Colors.light;
 
   return (
-    <>
+    <UserProdiver>
       <StatusBar value="auto" />
       <Stack
         screenOptions={{
@@ -21,7 +22,7 @@ const RootLayout = () => {
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(dashboard)" options={{ headerShown: false }} />
       </Stack>
-    </>
+    </UserProdiver>
   );
 };
 
