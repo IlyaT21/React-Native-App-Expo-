@@ -1,9 +1,9 @@
 import { createContext, useEffect, useState } from "react";
-import { Databases } from "../lib/appwrite";
+import { client, Databases } from "../lib/appwrite";
 import { ID, Permission, Query, Role } from "react-native-appwrite";
 import { useUser } from "../hooks/useUser";
 
-const DATABSE_ID = "682b8853000db49e3701";
+const DATABASE_ID = "682b8853000db49e3701";
 const COLLECTION_ID = "682b8870003ae5db5e2a";
 
 export const BooksContext = createContext();
@@ -15,13 +15,12 @@ export function BooksProvider({ children }) {
   async function fetchBooks() {
     try {
       const response = await Databases.listDocuments(
-        DATABSE_ID,
+        DATABASE_ID,
         COLLECTION_ID,
         [Query.equal("userId", user.$id)]
       );
 
       setBooks(response.documents);
-      console.log(response.documents);
     } catch (error) {
       console.log(error);
     }
@@ -29,6 +28,13 @@ export function BooksProvider({ children }) {
 
   async function fetchBookById(id) {
     try {
+      const response = await Databases.getDocument(
+        DATABASE_ID,
+        COLLECTION_ID,
+        id
+      );
+
+      return response;
     } catch (error) {
       console.log(error);
     }
@@ -37,7 +43,7 @@ export function BooksProvider({ children }) {
   async function createBook(data) {
     try {
       const newBook = await Databases.createDocument(
-        DATABSE_ID,
+        DATABASE_ID,
         COLLECTION_ID,
         ID.unique(),
         { ...data, userId: user.$id },
@@ -54,17 +60,39 @@ export function BooksProvider({ children }) {
 
   async function deleteBook(id) {
     try {
+      await Databases.deleteDocument(DATABASE_ID, COLLECTION_ID, id);
     } catch (error) {
       console.log(error);
     }
   }
 
   useEffect(() => {
+    let unsubscribe;
+    const channel = `databases.${DATABASE_ID}.collections.${COLLECTION_ID}.documents`;
+
     if (user) {
       fetchBooks();
+
+      unsubscribe = client.subscribe(channel, (response) => {
+        const { payload, events } = response;
+
+        if (events[0].includes("create")) {
+          setBooks((prevBooks) => [...prevBooks, payload]);
+        }
+
+        if (events[0].includes("delete")) {
+          setBooks((prevBooks) =>
+            prevBooks.filter((book) => book.$id !== payload.$id)
+          );
+        }
+      });
     } else {
       setBooks([]);
     }
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
   }, [user]);
 
   return (

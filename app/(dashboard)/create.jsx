@@ -12,7 +12,7 @@ import Spacer from "../../components/Spacer";
 import ThemedText from "../../components/ThemedText";
 import ThemedView from "../../components/ThemedView";
 import ThemedTextInput from "../../components/ThemedTextInput";
-import ThemedButton from "../../components/ThememButton";
+import ThemedButton from "../../components/ThemedButton";
 
 const Create = () => {
   const [title, setTitle] = useState("");

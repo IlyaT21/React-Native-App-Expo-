@@ -4,7 +4,7 @@ import Spacer from "../../components/Spacer";
 import ThemedText from "../../components/ThemedText";
 import ThemedView from "../../components/ThemedView";
 import { useUser } from "../../hooks/useUser";
-import ThememButton from "../../components/ThememButton";
+import ThemedButton from "../../components/ThemedButton";
 
 const Profile = () => {
   const { user, logout } = useUser();
@@ -19,9 +19,9 @@ const Profile = () => {
       <ThemedText>Time to start reading some books...</ThemedText>
       <Spacer />
 
-      <ThememButton onPress={logout}>
+      <ThemedButton onPress={logout}>
         <Text style={{ color: "#f2f2f2" }}>Logout</Text>
-      </ThememButton>
+      </ThemedButton>
     </ThemedView>
   );
 };

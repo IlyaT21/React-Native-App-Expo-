@@ -8,7 +8,7 @@ import { Link } from "expo-router";
 import ThemedView from "../../components/ThemedView";
 import ThemedText from "../../components/ThemedText";
 import Spacer from "../../components/Spacer";
-import ThememButton from "../../components/ThememButton";
+import ThemedButton from "../../components/ThemedButton";
 import ThemedTextInput from "../../components/ThemedTextInput";
 import { useState } from "react";
 import { useUser } from "../../hooks/useUser";
@@ -52,9 +52,9 @@ const Register = () => {
           value={password}
           secureTextEntry
         />
-        <ThememButton onPress={handleSubmit}>
+        <ThemedButton onPress={handleSubmit}>
           <Text style={{ color: "#f2f2f2" }}>Register</Text>
-        </ThememButton>
+        </ThemedButton>
         <Spacer />
         {error && <Text style={styles.error}>{error}</Text>}
         <Spacer height={100} />
